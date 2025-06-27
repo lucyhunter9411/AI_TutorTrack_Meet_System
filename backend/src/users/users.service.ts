@@ -12,9 +12,13 @@ export class UsersService {
     return this.userModel.findOne({ email });
   }
 
-  async create(email: string, password: string): Promise<UserDocument> {
+  async findById(id: string): Promise<UserDocument | null> {
+    return this.userModel.findById(id);
+  }
+
+  async create(email: string, password: string, role: string = 'student'): Promise<UserDocument> {
     const hashed = await bcrypt.hash(password, 10);
-    const createdUser = new this.userModel({ email, password: hashed });
+    const createdUser = new this.userModel({ email, password: hashed, role });
     return createdUser.save();
   }
 }

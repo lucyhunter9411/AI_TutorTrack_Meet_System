@@ -25,17 +25,29 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
+    
+    const payload = { email: user.email, sub: user._id };
+    console.log('Auth Service - Signing token with payload:', payload);
+    const token = this.jwtService.sign(payload);
+    console.log('Auth Service - Token signed successfully');
+    
     return {
-      access_token: this.jwtService.sign({ email: user.email, sub: user._id }),
+      access_token: token,
     };
   }
 
-  async register(email: string, password: string) {
+  async register(email: string, password: string, role?: string) {
     const existing = await this.usersService.findByEmail(email);
     if (existing) throw new UnauthorizedException('Email already exists');
-    const user = await this.usersService.create(email, password);
+    const user = await this.usersService.create(email, password, role);
+    
+    const payload = { email: user.email, sub: user._id };
+    console.log('Auth Service - Signing token with payload:', payload);
+    const token = this.jwtService.sign(payload);
+    console.log('Auth Service - Token signed successfully');
+    
     return {
-      access_token: this.jwtService.sign({ email: user.email, sub: user._id }),
+      access_token: token,
     };
   }
 }
