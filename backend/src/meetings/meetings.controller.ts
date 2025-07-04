@@ -14,7 +14,7 @@ export class MeetingsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createMeeting(@Body() body: { title: string; description: string; scheduledTime: string }, @Req() req: Request) {
+  async createMeeting(@Body() body: { title: string; description: string; scheduledTime: string; duration: number }, @Req() req: Request) {
     const jwtUser = req.user as JwtUser;
     
     // Check if user is a tutor
@@ -26,6 +26,7 @@ export class MeetingsController {
       title: body.title,
       description: body.description,
       scheduledTime: new Date(body.scheduledTime),
+      duration: body.duration,
       tutorId: jwtUser.userId,
     };
 

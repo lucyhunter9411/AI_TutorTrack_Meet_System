@@ -13,6 +13,7 @@ export class MeetingsService {
     title: string;
     description: string;
     scheduledTime: Date;
+    duration: number;
     tutorId: string;
   }): Promise<MeetingDocument> {
     const meeting = new this.meetingModel({

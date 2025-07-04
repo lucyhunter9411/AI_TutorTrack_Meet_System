@@ -14,6 +14,9 @@ export class Meeting {
   @Prop({ required: true })
   scheduledTime: Date;
 
+  @Prop({ required: true, min: 15, max: 120 }) // 15 minutes to 2 hours
+  duration: number; // Duration in minutes
+
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   tutorId: Types.ObjectId;
 

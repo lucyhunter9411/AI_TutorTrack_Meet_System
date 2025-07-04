@@ -5,6 +5,7 @@ interface Meeting {
   title: string;
   description: string;
   scheduledTime: string;
+  duration: number;
   status: string;
   tutorId: {
     _id: string;
@@ -28,6 +29,20 @@ export default function MeetingCard({ meeting, onDelete, showDeleteButton = fals
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleString();
+  };
+
+  const formatDuration = (minutes: number) => {
+    if (minutes < 60) {
+      return `${minutes} minutes`;
+    } else {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      if (remainingMinutes === 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else {
+        return `${hours} hour${hours > 1 ? 's' : ''} ${remainingMinutes} minutes`;
+      }
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -61,6 +76,11 @@ export default function MeetingCard({ meeting, onDelete, showDeleteButton = fals
           <div className="detail-item">
             <span className="detail-label">Scheduled:</span>
             <span className="detail-value">{formatDate(meeting.scheduledTime)}</span>
+          </div>
+          
+          <div className="detail-item">
+            <span className="detail-label">Duration:</span>
+            <span className="detail-value">{formatDuration(meeting.duration)}</span>
           </div>
           
           <div className="detail-item">

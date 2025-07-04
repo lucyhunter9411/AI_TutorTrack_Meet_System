@@ -12,6 +12,7 @@ export default function CreateMeetingForm({ onMeetingCreated, onCancel }: Create
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [scheduledTime, setScheduledTime] = useState('');
+  const [duration, setDuration] = useState(60); // Default 60 minutes
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,11 +26,13 @@ export default function CreateMeetingForm({ onMeetingCreated, onCancel }: Create
         title,
         description,
         scheduledTime,
+        duration,
       });
       
       setTitle('');
       setDescription('');
       setScheduledTime('');
+      setDuration(60);
       onMeetingCreated();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to create meeting');
@@ -76,6 +79,23 @@ export default function CreateMeetingForm({ onMeetingCreated, onCancel }: Create
             onChange={e => setScheduledTime(e.target.value)}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="duration">Duration</label>
+          <select
+            id="duration"
+            value={duration}
+            onChange={e => setDuration(Number(e.target.value))}
+            required
+          >
+            <option value={15}>15 minutes</option>
+            <option value={30}>30 minutes</option>
+            <option value={45}>45 minutes</option>
+            <option value={60}>1 hour</option>
+            <option value={90}>1.5 hours</option>
+            <option value={120}>2 hours</option>
+          </select>
         </div>
 
         <div className="form-actions">

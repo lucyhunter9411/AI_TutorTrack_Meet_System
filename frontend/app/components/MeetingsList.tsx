@@ -11,6 +11,7 @@ interface Meeting {
   title: string;
   description: string;
   scheduledTime: string;
+  duration: number;
   status: string;
   tutorId: {
     _id: string;
